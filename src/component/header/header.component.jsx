@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 //Import logo.svg
 import {ReactComponent as Logo} from '../../assets/crown.svg';
@@ -32,5 +33,9 @@ const Header = ( {currentUser} ) => (
     </div>
 );
 
-export default Header;
+//The state is my root reducer
+const mapStateToProps = state => ({
+    currentUser: state.user.currentUser
+});
 
+export default connect(mapStateToProps)(Header);
