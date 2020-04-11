@@ -1,6 +1,7 @@
 //Import libraries
 import React from 'react';
-import {Link} from 'react-router-dom';
+//import {Link} from 'react-router-dom'; --> This file was imported in header.style.jsx
+
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 
@@ -8,7 +9,9 @@ import {createStructuredSelector} from 'reselect';
 import {ReactComponent as Logo} from '../../assets/crown.svg';
 
 //Import files 
-import './header.style.scss';
+/** import './header.style.scss'; --> This file was replaced by styled
+ *  components in header.style.jsx */  
+import {HeaderContainer, LogoContainer, OptionsContainer, OptionDiv, OptionLink} from './header.style';
 import {auth} from '../../firebase/firebase.utils';
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
@@ -16,8 +19,9 @@ import {selectCartHidden} from '../../redux/cart/cart.selector';
 import {selectCurrentUser} from '../../redux/user/user.selector';
 
 
-const Header = ( {currentUser, hidden} ) => (
-    //this part above is what my dom is render
+//This block of code was replaced in order to use styled components --> heder.style.jsx
+/* const Header = ( {currentUser, hidden} ) => (
+    //this part bellow is what my dom is render
     <div className='header'>
         <Link className='logo-container' to='/'>
             <Logo className='logo'/>
@@ -41,9 +45,37 @@ const Header = ( {currentUser, hidden} ) => (
             <CartIcon />            
         </div>
 
-        { hidden ? null : <CartDropdown /> }
-        
+        { hidden ? null : <CartDropdown /> }        
     </div>
+); */
+
+
+const Header = ( {currentUser, hidden} ) => (
+    <HeaderContainer>
+
+        <LogoContainer to='/'>
+            <Logo className='logo'/>
+        </LogoContainer>
+
+        <OptionsContainer>
+            <OptionLink to='/shop'> SHOP </OptionLink>
+            <OptionLink to='/contact'> CONTACT </OptionLink>      
+
+            {currentUser ? 
+                ( 
+                    <OptionDiv onClick={() => auth.signOut()}> 
+                        SIGN OUT
+                    </OptionDiv>
+                ) 
+                : ( <OptionLink to='/signin'> SIGN IN </OptionLink> )
+            }
+
+            <CartIcon />    
+
+        </OptionsContainer>
+
+        { hidden ? null : <CartDropdown /> }        
+    </HeaderContainer>
 );
 
 //The state is my root reducer

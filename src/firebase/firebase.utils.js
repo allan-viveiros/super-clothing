@@ -40,6 +40,48 @@ const config = {
     return userRef;
   };
 
+  /* This function will make a database request to get a new empty document and 
+   * set my object to this new document */
+  export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = firestore.collection(collectionKey);
+    
+    //console.log(collectionRef);
+
+    const batch = firestore.batch();
+
+    objectsToAdd.forEach(obj => {
+      //Thi code above will return from database a new empty document and a new random key
+      const newDocRef = collectionRef.doc();
+      batch.set(newDocRef, obj);
+      console.log(newDocRef);      
+    });
+
+    return await batch.commit();
+  }
+
+
+  //Get documents from firebase by firestore
+  export const convertCollectionsSnapshotToMap = collections => {
+    const transformedCollection = collections.docs.map(doc => {
+      const {title, items} = doc.data();
+
+      return {
+        routeName: encodeURI(title.toLowerCase()),
+        id: doc.id,
+        title,
+        items
+      };
+    });   
+    //console.log(transformedCollection);
+    
+    //This function will accumulate all my collections by reducer
+    return transformedCollection.reduce((accumulator, collection) => {
+      accumulator[collection.title.toLowerCase()] = collection;
+      return accumulator;
+    }, {});
+  }
+
+
   //Initializing the database app (connect)
   firebase.initializeApp(config);
   

@@ -1,8 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 //Import files
-import './custom-button.style.scss'
+import './custom-button.style.scss'; //--> This file was replaced to custom-button.style.jsx
+//import {CustomButtonContainer} from './custom-button.style';
 
+
+// This code was replaced in order to use styled components --> custom-button.style.jsx
 const CustomButton = ( {children, isGoogleSignIn, inverted, ...otherProps} ) => (
     <button 
         className={` 
@@ -11,9 +14,16 @@ const CustomButton = ( {children, isGoogleSignIn, inverted, ...otherProps} ) => 
             custom-button`} 
         {...otherProps}
     >
-        {children}
+
+        {children}        
     </button>
+); 
 
-);
 
-export default CustomButton;
+/*  const CustomButton = ( {children, ...props} ) => (
+
+    <CustomButtonContainer {...props}> {children} </CustomButtonContainer>
+);  */
+
+
+export default CustomButton; 

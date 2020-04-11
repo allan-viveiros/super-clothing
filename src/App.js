@@ -14,6 +14,7 @@ import {setCurrentUser} from './redux/user/user.actions';
 import {selectCurrentUser} from './redux/user/user.selector';
 import CheckOutPage from './pages/checkout/checkout.component';
 
+
 class App extends React.Component {
   // Because I'm using setCurrentUser from user.actions (redux) 
   // I don't need to use state here.
@@ -29,6 +30,10 @@ class App extends React.Component {
 
   unsubscribeFromAuth = null;
 
+  /**Here I receive my sections(INITIAL_STATE) as props from 
+   * '/shop/shop.reducer.js' and broke my state in 
+   * setCurrentUser --> the user authenticated or not 
+   * collectionsArray --> my sections */  
   componentDidMount() {
     const {setCurrentUser} = this.props;
 
@@ -49,7 +54,7 @@ class App extends React.Component {
       }
       else {
         setCurrentUser(userAuth);
-      }       
+      } 
 
     });
   }
@@ -86,8 +91,7 @@ class App extends React.Component {
         </Switch>   
       </div>
     );
-  }
-  
+  }  
 }
 
 const mapStateToProps = createStructuredSelector({
